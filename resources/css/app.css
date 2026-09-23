@@ -1,0 +1,64 @@
+@import 'tailwindcss';
+
+@config '../../tailwind.config.js';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+/* Arquivos gerados em runtime (logs, Pail, devtools) disparavam full reload em loop */
+@source not '../../storage/logs';
+@source not '../../storage/pail';
+@source not '../../storage/inertia-devtools';
+@source not '../../storage/app';
+@source not '../../storage/time-machine';
+@source not '../../projeto-antigo';
+
+@plugin 'daisyui' {
+    themes: false;
+}
+
+/* Tema daisyUI com as cores do projeto antigo (ver tailwind.config.js) */
+@plugin 'daisyui/theme' {
+    name: 'vistoria';
+    default: true;
+    color-scheme: light;
+
+    --color-base-100: #ffffff;
+    --color-base-200: #f7f7f7;
+    --color-base-300: #d9d9d9;
+    --color-base-content: #333333;
+
+    --color-primary: #00796b;
+    --color-primary-content: #ffffff;
+    --color-secondary: #55a38b;
+    --color-secondary-content: #ffffff;
+    --color-accent: #80cbc4;
+    --color-accent-content: #004d40;
+    --color-neutral: #333333;
+    --color-neutral-content: #ffffff;
+
+    --color-info: #027be3;
+    --color-info-content: #ffffff;
+    --color-success: #388e3c;
+    --color-success-content: #ffffff;
+    --color-warning: #e65100;
+    --color-warning-content: #ffffff;
+    --color-error: #c80000;
+    --color-error-content: #ffffff;
+
+    --radius-selector: 0.5rem;
+    --radius-field: 0.375rem;
+    --radius-box: 0.75rem;
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 1;
+    --noise: 0;
+}
+
+/* Foco dos campos na cor da marca (o padrão do daisyUI é a cor do texto) */
+.input:not(.input-error):focus-within,
+.select:not(.select-error):focus-within,
+.textarea:not(.textarea-error):focus {
+    border-color: var(--color-primary);
+    outline-color: var(--color-primary);
+}

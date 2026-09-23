@@ -1,0 +1,32 @@
+{
+    "$schema": "https://www.schemastore.org/package.json",
+    "name": "app-consulta",
+    "version": "0.1.0",
+    "description": "Aplicação Laravel com Inertia.js (Vue 3), Tailwind CSS e daisyUI",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "test:e2e": "playwright test"
+    },
+    "devDependencies": {
+        "@iconify/vue": "^5.0.2",
+        "@inertiajs/vite": "^3.7.1",
+        "@inertiajs/vue3": "^3.7.1",
+        "@tailwindcss/forms": "^0.5.11",
+        "@tailwindcss/typography": "^0.5.20",
+        "@tailwindcss/vite": "^4.3.3",
+        "@vitejs/plugin-vue": "^6.0.9",
+        "concurrently": "^10.0.3",
+        "daisyui": "^5.7.42",
+        "laravel-vite-plugin": "^3.1",
+        "playwright": "^1.63.0",
+        "tailwindcss": "^4.3.3",
+        "vite": "^8.0.0",
+        "vue": "^3.5.43"
+    },
+    "optionalDependencies": {
+        "@laravel/multiplex": "^0.4.1"
+    }
+}
