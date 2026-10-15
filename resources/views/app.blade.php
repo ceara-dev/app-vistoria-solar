@@ -12,8 +12,9 @@
 
         @fonts
 
-        @routes
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        {{-- As páginas da Central publicam central.*; as demais não (config/ziggy.php). --}}
+        @routes(request()->routeIs('central.*') ? 'central' : null)
+        @vite(['resources/css/app.css', 'resources/js/app.ts'])
         @inertiaHead
     </head>
     <body class="font-sans antialiased">

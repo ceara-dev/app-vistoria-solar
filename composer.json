@@ -13,6 +13,7 @@
         "hryagstn/laravel-scalpel": "^1.9",
         "inertiajs/inertia-laravel": "^3.3",
         "laravel/framework": "^13.17",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^3.0",
         "owen-it/laravel-auditing": "^14.0",
         "spatie/laravel-permission": "^8.3",
@@ -50,6 +51,8 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate",
             "@php artisan migrate --force",
+            "@php artisan db:seed --class=RolesAndPermissionsSeeder --force",
+            "@php artisan db:seed --class=PlansSeeder --force",
             "npm install --ignore-scripts",
             "npm run build"
         ],

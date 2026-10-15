@@ -8,7 +8,9 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "test:e2e": "playwright test"
+        "test:e2e": "playwright test",
+        "typecheck": "vue-tsc --noEmit",
+        "test:unit": "vitest run"
     },
     "devDependencies": {
         "@iconify/vue": "^5.0.2",
@@ -20,11 +22,15 @@
         "@vitejs/plugin-vue": "^6.0.9",
         "concurrently": "^10.0.3",
         "daisyui": "^5.7.42",
+        "fontaine": "^0.8.0",
         "laravel-vite-plugin": "^3.1",
         "playwright": "^1.63.0",
         "tailwindcss": "^4.3.3",
+        "typescript": "~6.0.3",
         "vite": "^8.0.0",
-        "vue": "^3.5.43"
+        "vitest": "^5.0.5",
+        "vue": "^3.5.43",
+        "vue-tsc": "^3.3.13"
     },
     "optionalDependencies": {
         "@laravel/multiplex": "^0.4.1"

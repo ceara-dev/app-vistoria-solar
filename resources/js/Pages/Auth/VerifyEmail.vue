@@ -1,20 +1,13 @@
-<script setup>
-import { computed } from 'vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+<script setup lang="ts">
+import { Head, Link } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
+import { ROUTE_NAMES_AUTH } from '@/Constants';
+import { useEmailVerification } from '@/Composables/auth/useEmailVerification';
 
-const props = defineProps({
-    status: { type: String, default: '' },
-});
+const props = withDefaults(defineProps<{ status?: string }>(), { status: '' });
 
-const form = useForm({});
-
-const verificationLinkSent = computed(() => props.status === 'verification-link-sent');
-
-const submit = () => {
-    form.post(route('verification.send'));
-};
+const { form, verificationLinkSent, resend } = useEmailVerification(() => props.status);
 </script>
 
 <template>
@@ -34,24 +27,15 @@ const submit = () => {
             Não recebeu? Confira a caixa de spam ou peça um novo link abaixo.
         </div>
 
-        <form @submit.prevent="submit">
-            <button
-                type="submit"
-                class="btn btn-primary btn-block h-12 rounded-full shadow-lg shadow-brand-700/20"
-                :disabled="form.processing"
-            >
+        <form @submit.prevent="resend">
+            <button type="submit" class="btn btn-primary btn-block h-12 rounded-full shadow-lg shadow-brand-700/20" :disabled="form.processing">
                 <span v-if="form.processing" class="loading loading-spinner loading-sm" />
                 <Icon v-else icon="mdi:email-sync-outline" class="size-5" />
                 Reenviar e-mail de verificação
             </button>
         </form>
 
-        <Link
-            :href="route('logout')"
-            method="post"
-            as="button"
-            class="btn btn-ghost btn-block mt-4 rounded-full text-ink-muted"
-        >
+        <Link :href="route(ROUTE_NAMES_AUTH.LOGOUT)" method="post" as="button" class="btn btn-ghost btn-block mt-4 rounded-full text-ink-muted">
             <Icon icon="mdi:logout" class="size-4" />
             Sair
         </Link>

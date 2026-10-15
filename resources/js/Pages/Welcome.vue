@@ -1,19 +1,13 @@
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
+import { ROUTE_NAMES_AUTH, ROUTE_NAMES_TENANT } from '@/Constants';
 import { benefits, features, floatingBadges, navLinks, steps } from '@/Constants/welcome';
+import { useHorizontalScroll } from '@/Composables/shared/useHorizontalScroll';
 
-defineProps({
-    canLogin: { type: Boolean, default: true },
-    canRegister: { type: Boolean, default: true },
-});
+withDefaults(defineProps<{ canLogin?: boolean; canRegister?: boolean }>(), { canLogin: true, canRegister: true });
 
-const carousel = ref(null);
-
-const scrollFeatures = (direction) => {
-    carousel.value?.scrollBy({ left: direction * 320, behavior: 'smooth' });
-};
+const { container: carousel, scroll: scrollFeatures } = useHorizontalScroll();
 </script>
 
 <template>
@@ -39,14 +33,14 @@ const scrollFeatures = (direction) => {
             <div v-if="canLogin" class="flex items-center gap-2">
                 <Link
                     v-if="$page.props.auth?.user"
-                    :href="route('dashboard')"
+                    :href="route(ROUTE_NAMES_TENANT.DASHBOARD)"
                     class="btn btn-primary btn-sm rounded-full px-5"
                 >
                     Painel
                 </Link>
                 <template v-else>
-                    <Link :href="route('login')" class="btn btn-ghost btn-sm rounded-full">Entrar</Link>
-                    <Link v-if="canRegister" :href="route('register')" class="btn btn-primary btn-sm rounded-full px-5">
+                    <Link :href="route(ROUTE_NAMES_AUTH.LOGIN)" class="btn btn-ghost btn-sm rounded-full">Entrar</Link>
+                    <Link v-if="canRegister" :href="route(ROUTE_NAMES_AUTH.REGISTER)" class="btn btn-primary btn-sm rounded-full px-5">
                         Começar
                     </Link>
                 </template>
@@ -68,7 +62,7 @@ const scrollFeatures = (direction) => {
                 <div class="mt-8 flex flex-wrap gap-3">
                     <Link
                         v-if="$page.props.auth?.user"
-                        :href="route('dashboard')"
+                        :href="route(ROUTE_NAMES_TENANT.DASHBOARD)"
                         class="btn btn-primary btn-lg rounded-full px-8 shadow-lg shadow-brand-700/20"
                     >
                         Ir para o painel
@@ -76,13 +70,13 @@ const scrollFeatures = (direction) => {
                     </Link>
                     <template v-else-if="canLogin">
                         <Link
-                            :href="route(canRegister ? 'register' : 'login')"
+                            :href="route(canRegister ? ROUTE_NAMES_AUTH.REGISTER : ROUTE_NAMES_AUTH.LOGIN)"
                             class="btn btn-primary btn-lg rounded-full px-8 shadow-lg shadow-brand-700/20"
                         >
                             Começar agora
                             <Icon icon="mdi:arrow-right" class="size-5" />
                         </Link>
-                        <Link :href="route('login')" class="btn btn-lg btn-ghost rounded-full text-primary">
+                        <Link :href="route(ROUTE_NAMES_AUTH.LOGIN)" class="btn btn-lg btn-ghost rounded-full text-primary">
                             Já tenho conta
                         </Link>
                     </template>
@@ -205,7 +199,7 @@ const scrollFeatures = (direction) => {
                 </h2>
                 <p class="mt-3 text-xl font-semibold drop-shadow-md">Nossa fonte de energia é o sol</p>
                 <Link
-                    :href="route(canRegister ? 'register' : 'login')"
+                    :href="route(canRegister ? ROUTE_NAMES_AUTH.REGISTER : ROUTE_NAMES_AUTH.LOGIN)"
                     class="btn btn-lg mt-8 rounded-full border-none bg-white px-8 text-brand-700 hover:bg-brand-50"
                 >
                     Criar minha conta

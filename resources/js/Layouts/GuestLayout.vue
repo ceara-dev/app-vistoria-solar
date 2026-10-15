@@ -1,12 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
 import { highlights, panelBadges } from '@/Constants/auth';
 
-defineProps({
-    title: { type: String, required: true },
-    subtitle: { type: String, default: '' },
-    icon: { type: String, default: 'mdi:solar-power-variant-outline' },
+withDefaults(defineProps<{ title: string; subtitle?: string; icon?: string }>(), {
+    subtitle: '',
+    icon: 'mdi:solar-power-variant-outline',
 });
 </script>
 

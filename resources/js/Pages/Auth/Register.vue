@@ -1,86 +1,87 @@
-<script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3';
+<script setup lang="ts">
+import { Head, Link } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import FormField from '@/Components/FormField.vue';
-import TextInput from '@/Components/TextInput.vue';
-import PasswordInput from '@/Components/PasswordInput.vue';
-import PasswordStrength from '@/Components/PasswordStrength.vue';
+import AppFormField from '@/Components/common/AppFormField.vue';
+import AppTextInput from '@/Components/common/AppTextInput.vue';
+import AppPasswordInput from '@/Components/common/AppPasswordInput.vue';
+import AppPasswordStrength from '@/Components/common/AppPasswordStrength.vue';
+import { FIELD_LIMITS, ROUTE_NAMES_AUTH } from '@/Constants';
+import { useRegisterForm } from '@/Composables/auth/useRegisterForm';
 
-const form = useForm({
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-});
-
-const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
-    });
-};
+const { form, validateField, submit } = useRegisterForm();
 </script>
 
 <template>
     <Head title="Criar conta" />
 
-    <GuestLayout
-        title="Crie sua conta"
-        subtitle="Comece a organizar suas vistorias solares em poucos minutos."
-        icon="mdi:account-plus-outline"
-    >
-        <form class="space-y-4" @submit.prevent="submit">
-            <FormField label="Nome" :error="form.errors.name">
-                <TextInput
+    <GuestLayout title="Crie sua conta" subtitle="Comece a organizar suas vistorias solares em poucos minutos." icon="mdi:account-plus-outline">
+        <form class="space-y-4" novalidate @submit.prevent="submit">
+            <AppFormField label="Nome" :error="form.errors.name">
+                <AppTextInput
                     v-model="form.name"
                     icon="mdi:account-outline"
                     :error="form.errors.name"
-                    type="text"
+                    :maxlength="FIELD_LIMITS.NAME_MAX"
                     placeholder="Seu nome completo"
                     autocomplete="name"
                     required
                     autofocus
+                    @blur="validateField('name')"
                 />
-            </FormField>
+            </AppFormField>
 
-            <FormField label="E-mail" :error="form.errors.email">
-                <TextInput
+            <AppFormField label="E-mail" :error="form.errors.email">
+                <AppTextInput
                     v-model="form.email"
                     icon="mdi:email-outline"
                     :error="form.errors.email"
+                    :maxlength="FIELD_LIMITS.EMAIL_MAX"
                     type="email"
                     placeholder="seu@email.com"
                     autocomplete="username"
                     required
+                    @blur="validateField('email')"
                 />
-            </FormField>
+            </AppFormField>
 
-            <FormField label="Senha" :error="form.errors.password">
-                <PasswordInput
+            <AppFormField label="Nome da empresa" :error="form.errors.company_name">
+                <AppTextInput
+                    v-model="form.company_name"
+                    icon="mdi:domain"
+                    :error="form.errors.company_name"
+                    :maxlength="FIELD_LIMITS.COMPANY_NAME_MAX"
+                    placeholder="Como sua empresa é conhecida"
+                    autocomplete="organization"
+                    required
+                    @blur="validateField('company_name')"
+                />
+            </AppFormField>
+
+            <AppFormField label="Senha" :error="form.errors.password">
+                <AppPasswordInput
                     v-model="form.password"
                     :error="form.errors.password"
-                    placeholder="Mínimo de 8 caracteres"
+                    :placeholder="`Mínimo de ${FIELD_LIMITS.PASSWORD_MIN} caracteres`"
                     autocomplete="new-password"
                     required
+                    @blur="validateField('password')"
                 />
-                <PasswordStrength :password="form.password" />
-            </FormField>
+                <AppPasswordStrength :password="form.password" />
+            </AppFormField>
 
-            <FormField label="Confirmar senha" :error="form.errors.password_confirmation">
-                <PasswordInput
+            <AppFormField label="Confirmar senha" :error="form.errors.password_confirmation">
+                <AppPasswordInput
                     v-model="form.password_confirmation"
                     :error="form.errors.password_confirmation"
                     placeholder="Repita a senha"
                     autocomplete="new-password"
                     required
+                    @blur="validateField('password_confirmation')"
                 />
-            </FormField>
+            </AppFormField>
 
-            <button
-                type="submit"
-                class="btn btn-primary btn-block mt-2 h-12 rounded-full shadow-lg shadow-brand-700/20"
-                :disabled="form.processing"
-            >
+            <button type="submit" class="btn btn-primary btn-block mt-2 h-12 rounded-full shadow-lg shadow-brand-700/20" :disabled="form.processing">
                 <span v-if="form.processing" class="loading loading-spinner loading-sm" />
                 Criar conta
                 <Icon v-if="!form.processing" icon="mdi:arrow-right" class="size-5" />
@@ -89,7 +90,7 @@ const submit = () => {
 
         <p class="mt-8 text-center text-sm text-ink-muted">
             Já tem uma conta?
-            <Link :href="route('login')" class="link link-hover link-primary font-medium">Entrar</Link>
+            <Link :href="route(ROUTE_NAMES_AUTH.LOGIN)" class="link link-hover link-primary font-medium">Entrar</Link>
         </p>
     </GuestLayout>
 </template>

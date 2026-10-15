@@ -1,0 +1,15 @@
+export const ROUTE_NAMES_AUTH = {
+    HOME: 'home',
+    LOGIN: 'login',
+    LOGOUT: 'logout',
+    REGISTER: 'register',
+    PASSWORD_REQUEST: 'password.request',
+    PASSWORD_EMAIL: 'password.email',
+    PASSWORD_STORE: 'password.store',
+    PASSWORD_CONFIRM: 'password.confirm',
+    VERIFICATION_SEND: 'verification.send',
+    TENANT_SELECT: 'tenants.select',
+    TENANT_STORE: 'tenants.store',
+    CURRENT_TENANT_UPDATE: 'current-tenant.update',
+    INVITATION_ACCEPT: 'invitations.accept',
+} as const;
